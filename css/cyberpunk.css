@@ -11365,6 +11365,9 @@ figure.highlight.foldable div.level-left {
 .widget .menu-list .level .level-right {
   align-items: flex-start;
 }
+.widget .menu-list .level .level-item {
+  overflow: anywhere;
+}
 .widget .menu-list .tag {
   background: $light-grey;
   color: $white-invert;
