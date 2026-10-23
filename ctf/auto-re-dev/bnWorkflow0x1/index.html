@@ -34,7 +34,7 @@
 <h4 id="bianryninja-的运行流程"><a href="#bianryninja-的运行流程" class="headerlink" title="bianryninja 的运行流程"></a>bianryninja 的运行流程</h4><p><code>bianryninja</code>默认带了两个<code>workflow</code>，通常我们用的是默认的<code>metaAnalyze workflow</code>，<code>workflow</code>可以理解成反编译器将二进制文件从机器码逐步提升成伪代码的流程，<code>bianryninja</code>的<code>workflow</code>由多个<code>activity</code>组成，每个<code>activity</code>代表了一项分析任务,<code>activity</code>之间组成cfg式的结构依次运行，将机器码依次提升到汇编,<code>llil</code>,<code>mlil</code>,<code>hlil</code>，这其实就是<code>llvm pass</code>的思路<br>很多时候二进制样本中会有各种混淆，在<code>arm64</code>样本中比较常见的就是间接跳转混淆，此时默认的<code>workflow</code>因为算不出来跳转的地址，反编译控制流就会断开，此时有很多修复的方案，比如修改汇编将原本的<code>br</code>指令替换成条件跳转，或者修改<code>il</code>将<code>jump</code>替换成<code>if</code>这样的分支语句，这里既然使用到了<code>workflow</code>，自然就是使用修改<code>il</code>的方式了，修改<code>il</code>有很多好处，首先<code>il</code>本身包含了许多元数据，可以很方便的查找其前驱和让我们分析数据流，其次<code>il</code>本身可以任意修改，包括增加或减少语句的数量，而汇编因为是嵌入在二进制程序里的，如果出现空间问题就很难办，最后就是<code>il</code>在处理条件上相比汇编更加简洁，主要是<code>cesl</code>和<code>cest</code>的判断符太多了，而<code>il</code>会自动把条件处理为<code>cond</code>变量<br>这里我们选择在<code>mlil</code>层和<code>hlil</code>层之间插入我们的</p>
 <h4 id="样本分析"><a href="#样本分析" class="headerlink" title="样本分析"></a>样本分析</h4><p>来看一下<code>mtguard.so</code>中的这个混淆样本<br><img src="/gallery/illustration/bn_workflow0x1/dis_csel.png"><br><img src="/gallery/illustration/bn_workflow0x1/hlil_csel.png"><br>可以看到美团的这个样本也是很难搞，一处跳转就用了好多处分支赋值指令，而且判断符还不一样<br>我们从<code>mlil</code>入手看一下混淆的结构，因为在<code>mlil</code>之前变量定义还未生成，不方便做数据流分析，而且<code>mlil</code>一个重要的功能是将未分析出值的变量指定为常量，这样如果bn无法分析表地址，我们还可以手动指定表地址<br><img src="/gallery/illustration/bn_workflow0x1/mlil_csel.png"><br>我们的最终目的是求解<code>x9_1</code>变量的值，这个值理论有两个，让我们看一下bn已经分析到哪一步了<br><img src="/gallery/illustration/bn_workflow0x1/x9_.png"><br><img src="/gallery/illustration/bn_workflow0x1/x11_1_.png"><br><img src="/gallery/illustration/bn_workflow0x1/x27_.png"><br>可以看到其实我们需要的值都有了，只是bn没办法把这些值两两对应起来分析</p>
 <blockquote>
-<p>此处补充一个前提，我们假定即使存在多个<code>csel</code>类指令，他们都对应同一个<code>cmp</code>，即<code>cond</code>全部是等价的，做出这种假定的前提是考虑这种混淆生成的方式，假设有n个<code>cmp</code>，那可能的状态数就是$2^n$，而正常的代码中的跳转语句大部分就是直接跳转，分支和<code>switch</code>三种结构，跳转状态为$2^n$的几乎没有，那我们观察这个结构，怎么看都像是分支，也就是说这个其实是<code>b.ne</code>或类似的指令通过<code>llvm</code>变换来的，所以说<code>cmp</code>大概率只有一个</p>
+<p>此处补充一个前提，我们假定即使存在多个<code>csel</code>类指令，他们都对应同一个<code>cmp</code>，即<code>cond</code>全部是等价的，做出这种假定的前提是考虑这种混淆生成的方式，假设有n个<code>cmp</code>，那可能的状态数就是<span class="math-inline">$2^n$</span>，而正常的代码中的跳转语句大部分就是直接跳转，分支和<code>switch</code>三种结构，跳转状态为<span class="math-inline">$2^n$</span>的几乎没有，那我们观察这个结构，怎么看都像是分支，也就是说这个其实是<code>b.ne</code>或类似的指令通过<code>llvm</code>变换来的，所以说<code>cmp</code>大概率只有一个</p>
 </blockquote>
 <p>我们的目标就是将这个跳转的的真假两个分支的的值分别计算出来，也就是把里面有两个值的变量和<code>TrueBranch</code>，<code>FalseBranch</code>对应起来，因为之前已经论证过<code>cond</code>应该都是一样的，所以我们在两个<code>if</code>中任意找一个<code>cond</code>就行（不排除做一个混淆然后把这两个cond做成相反的情况，但这个样本里没有，如果有的话其实最后拿cond时全拿下来然后判断一下就行，因为你从源代码的角度他大概率就是一句简单的if语句）</p>
 <h4 id="workflow"><a href="#workflow" class="headerlink" title="workflow"></a>workflow</h4><p>这里先贴一个完整代码</p>
@@ -114,16 +114,6 @@
                 }
                 $('.justified-gallery').justifiedGallery();
             }
-        });</script><!--!--><!--!--><script type="text/javascript" id="MathJax-script" async>MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      svg: {
-        fontCache: 'global'
-      },
-      chtml: {
-        matchFontHeight: false
-      }
-    };</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script src="/js/pjax.js"></script><!--!--><!--!--><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+        });</script><!--!--><!--!--><script id="MathJax-script">window.MathJax = {"tex":{"inlineMath":[["$","$"],["\\(","\\)"]]},"svg":{"fontCache":"local"}};</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script src="/js/pjax.js"></script><!--!--><!--!--><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
             loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
         });</script></body></html>

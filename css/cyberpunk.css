@@ -10839,6 +10839,12 @@ article.article .content code {
   background: transparent;
   overflow-wrap: break-word;
 }
+article.article .content :not(pre) > code {
+  color: #000;
+  font-family: 'Microsoft YaHei', SimHei, sans-serif;
+  font-size: inherit;
+  font-weight: 700;
+}
 article.article .content blockquote.pullquote {
   float: right;
   max-width: 50%;
