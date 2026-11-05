@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>设备指纹小计 - SGSG&#039;s Blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="SGSG&#039;s Blog"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="SGSG&#039;s Blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="记一点常见的指纹项，设备为pixel 6，采集app申请了网络权限"><meta property="og:type" content="blog"><meta property="og:title" content="设备指纹小计"><meta property="og:url" content="https://sgsgsama.github.io/ctf/Android/%E8%AE%BE%E5%A4%87%E6%8C%87%E7%BA%B9%E5%B0%8F%E8%AE%B0/"><meta property="og:site_name" content="SGSG&#039;s Blog"><meta property="og:description" content="记一点常见的指纹项，设备为pixel 6，采集app申请了网络权限"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://sgsgsama.github.io/img/og_image.png"><meta property="article:published_time" content="2026-11-03T05:49:43.000Z"><meta property="article:modified_time" content="2026-11-05T11:50:57.994Z"><meta property="article:author" content="SGSG"><meta property="article:tag" content="Android"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://sgsgsama.github.io/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://sgsgsama.github.io/ctf/Android/%E8%AE%BE%E5%A4%87%E6%8C%87%E7%BA%B9%E5%B0%8F%E8%AE%B0/"},"headline":"设备指纹小计","image":["https://sgsgsama.github.io/img/og_image.png"],"datePublished":"2026-11-03T05:49:43.000Z","dateModified":"2026-11-05T11:50:57.994Z","author":{"@type":"Person","name":"SGSG"},"publisher":{"@type":"Organization","name":"SGSG's Blog","logo":{"@type":"ImageObject","url":"https://sgsgsama.github.io/img/logo.svg"}},"description":"记一点常见的指纹项，设备为pixel 6，采集app申请了网络权限"}</script><link rel="canonical" href="https://sgsgsama.github.io/ctf/Android/%E8%AE%BE%E5%A4%87%E6%8C%87%E7%BA%B9%E5%B0%8F%E8%AE%B0/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.lug.ustc.edu.cn/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="SGSG&#039;s Blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Github" href="https://github.com/SGSGsama"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2026-11-03T05:49:43.000Z" title="2026/11/3 13:49:43">2026-11-03</time></span><span class="level-item">Updated&nbsp;<time dateTime="2026-11-05T11:50:57.994Z" title="2026/11/5 19:50:57">2026-11-05</time></span><span class="level-item"><a class="link-muted" href="/categories/Reverse/">Reverse</a><span> / </span><a class="link-muted" href="/categories/Reverse/Android/">Android</a></span><span class="level-item">14 minutes read (About 2126 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">设备指纹小计</h1><div class="content"><p>记一点常见的指纹项，设备为<code>pixel 6</code>，采集app申请了网络权限</p>
+<span id="more"></span>
+<h1 id="getenv"><a href="#getenv" class="headerlink" title="getenv"></a>getenv</h1><table>
+<thead>
+<tr>
+<th>key</th>
+<th>val</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ANDROID_ART_ROOT</td>
+<td>&#x2F;apex&#x2F;com.android.art</td>
+</tr>
+<tr>
+<td>ANDROID_ASSETS</td>
+<td>&#x2F;system&#x2F;app</td>
+</tr>
+<tr>
+<td>ANDROID_BOOTLOGO</td>
+<td>1</td>
+</tr>
+<tr>
+<td>ANDROID_DATA</td>
+<td>&#x2F;data</td>
+</tr>
+<tr>
+<td>ANDROID_I18N_ROOT</td>
+<td>&#x2F;apex&#x2F;com.android.i18n</td>
+</tr>
+<tr>
+<td>ANDROID_ROOT</td>
+<td>&#x2F;system</td>
+</tr>
+<tr>
+<td>ANDROID_SOCKET_usap_pool_primary</td>
+<td>32</td>
+</tr>
+<tr>
+<td>ANDROID_SOCKET_zygote</td>
+<td>31</td>
+</tr>
+<tr>
+<td>ANDROID_STORAGE</td>
+<td>&#x2F;storage</td>
+</tr>
+<tr>
+<td>ANDROID_TZDATA_ROOT</td>
+<td>&#x2F;apex&#x2F;com.android.tzdata</td>
+</tr>
+<tr>
+<td>ASEC_MOUNTPOINT</td>
+<td>&#x2F;mnt&#x2F;asec</td>
+</tr>
+<tr>
+<td>BOOTCLASSPATH</td>
+<td>&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;core-oj.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;core-libart.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;okhttp.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;bouncycastle.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;apache-xml.jar:&#x2F;system&#x2F;framework&#x2F;framework.jar:&#x2F;system&#x2F;framework&#x2F;framework-graphics.jar:&#x2F;system&#x2F;framework&#x2F;framework-location.jar:&#x2F;system&#x2F;framework&#x2F;ext.jar:&#x2F;system&#x2F;framework&#x2F;telephony-common.jar:&#x2F;system&#x2F;framework&#x2F;voip-common.jar:&#x2F;system&#x2F;framework&#x2F;ims-common.jar:&#x2F;system&#x2F;framework&#x2F;framework-ondeviceintelligence-platform.jar:&#x2F;apex&#x2F;com.android.i18n&#x2F;javalib&#x2F;core-icu4j.jar:&#x2F;apex&#x2F;com.android.adservices&#x2F;javalib&#x2F;framework-adservices.jar:&#x2F;apex&#x2F;com.android.adservices&#x2F;javalib&#x2F;framework-sdksandbox.jar:&#x2F;apex&#x2F;com.android.appsearch&#x2F;javalib&#x2F;framework-appsearch.jar:&#x2F;apex&#x2F;com.android.bt&#x2F;javalib&#x2F;framework-bluetooth.jar:&#x2F;apex&#x2F;com.android.configinfrastructure&#x2F;javalib&#x2F;framework-configinfrastructure.jar:&#x2F;apex&#x2F;com.android.conscrypt&#x2F;javalib&#x2F;conscrypt.jar:&#x2F;apex&#x2F;com.android.conscrypt&#x2F;javalib&#x2F;framework-conscrypt-nsc.jar:&#x2F;apex&#x2F;com.android.crashrecovery&#x2F;javalib&#x2F;framework-crashrecovery.jar:&#x2F;apex&#x2F;com.android.devicelock&#x2F;javalib&#x2F;framework-devicelock.jar:&#x2F;apex&#x2F;com.android.healthfitness&#x2F;javalib&#x2F;framework-healthfitness.jar:&#x2F;apex&#x2F;com.android.ipsec&#x2F;javalib&#x2F;android.net.ipsec.ike.jar:&#x2F;apex&#x2F;com.android.media&#x2F;javalib&#x2F;updatable-media.jar:&#x2F;apex&#x2F;com.android.mediaprovider&#x2F;javalib&#x2F;framework-mediaprovider.jar:&#x2F;apex&#x2F;com.android.mediaprovider&#x2F;javalib&#x2F;framework-pdf.jar:&#x2F;apex&#x2F;com.android.mediaprovider&#x2F;javalib&#x2F;framework-pdf-v.jar:&#x2F;apex&#x2F;com.android.mediaprovider&#x2F;javalib&#x2F;framework-photopicker.jar:&#x2F;apex&#x2F;com.android.nfcservices&#x2F;javalib&#x2F;framework-nfc.jar:&#x2F;apex&#x2F;com.android.npumanager&#x2F;javalib&#x2F;framework-npumanager.jar:&#x2F;apex&#x2F;com.android.ondevicepersonalization&#x2F;javalib&#x2F;framework-ondevicepersonalization.jar:&#x2F;apex&#x2F;com.android.os.statsd&#x2F;javalib&#x2F;framework-statsd.jar:&#x2F;apex&#x2F;com.android.permission&#x2F;javalib&#x2F;framework-permission.jar:&#x2F;apex&#x2F;com.android.permission&#x2F;javalib&#x2F;framework-permission-s.jar:&#x2F;apex&#x2F;com.android.profiling&#x2F;javalib&#x2F;framework-anomaly-detector.jar:&#x2F;apex&#x2F;com.android.profiling&#x2F;javalib&#x2F;framework-profiling.jar:&#x2F;apex&#x2F;com.android.scheduling&#x2F;javalib&#x2F;framework-scheduling.jar:&#x2F;apex&#x2F;com.android.sdkext&#x2F;javalib&#x2F;framework-sdkextensions.jar:&#x2F;apex&#x2F;com.android.telephonycore&#x2F;javalib&#x2F;framework-telecom.jar:&#x2F;apex&#x2F;com.android.telephonycore&#x2F;javalib&#x2F;framework-telephony.jar:&#x2F;apex&#x2F;com.android.tethering&#x2F;javalib&#x2F;framework-connectivity.jar:&#x2F;apex&#x2F;com.android.tethering&#x2F;javalib&#x2F;framework-connectivity-b.jar:&#x2F;apex&#x2F;com.android.tethering&#x2F;javalib&#x2F;framework-connectivity-t.jar:&#x2F;apex&#x2F;com.android.tethering&#x2F;javalib&#x2F;framework-tethering.jar:&#x2F;apex&#x2F;com.android.uprobestats&#x2F;javalib&#x2F;framework-uprobestats.jar:&#x2F;apex&#x2F;com.android.uwb&#x2F;javalib&#x2F;framework-ranging.jar:&#x2F;apex&#x2F;com.android.uwb&#x2F;javalib&#x2F;framework-uwb.jar:&#x2F;apex&#x2F;com.android.virt&#x2F;javalib&#x2F;framework-virtualization.jar:&#x2F;apex&#x2F;com.android.webapp&#x2F;javalib&#x2F;framework-webapp.jar:&#x2F;apex&#x2F;com.android.wifi&#x2F;javalib&#x2F;framework-wifi.jar</td>
+</tr>
+<tr>
+<td>DEX2OATBOOTCLASSPATH</td>
+<td>&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;core-oj.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;core-libart.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;okhttp.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;bouncycastle.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;apache-xml.jar:&#x2F;system&#x2F;framework&#x2F;framework.jar:&#x2F;system&#x2F;framework&#x2F;framework-graphics.jar:&#x2F;system&#x2F;framework&#x2F;framework-location.jar:&#x2F;system&#x2F;framework&#x2F;ext.jar:&#x2F;system&#x2F;framework&#x2F;telephony-common.jar:&#x2F;system&#x2F;framework&#x2F;voip-common.jar:&#x2F;system&#x2F;framework&#x2F;ims-common.jar:&#x2F;system&#x2F;framework&#x2F;framework-ondeviceintelligence-platform.jar:&#x2F;apex&#x2F;com.android.i18n&#x2F;javalib&#x2F;core-icu4j.jar</td>
+</tr>
+<tr>
+<td>DOWNLOAD_CACHE</td>
+<td>&#x2F;data&#x2F;cache</td>
+</tr>
+<tr>
+<td>EXTERNAL_STORAGE</td>
+<td>&#x2F;sdcard</td>
+</tr>
+<tr>
+<td>PATH</td>
+<td>&#x2F;product&#x2F;bin:&#x2F;apex&#x2F;com.android.runtime&#x2F;bin:&#x2F;apex&#x2F;com.android.art&#x2F;bin:&#x2F;apex&#x2F;com.android.virt&#x2F;bin:&#x2F;system_ext&#x2F;bin:&#x2F;system&#x2F;bin:&#x2F;system&#x2F;xbin:&#x2F;odm&#x2F;bin:&#x2F;vendor&#x2F;bin:&#x2F;vendor&#x2F;xbin</td>
+</tr>
+<tr>
+<td>STANDALONE_SYSTEMSERVER_JARS</td>
+<td>&#x2F;apex&#x2F;com.android.bt&#x2F;javalib&#x2F;service-bluetooth.jar:&#x2F;apex&#x2F;com.android.devicelock&#x2F;javalib&#x2F;service-devicelock.jar:&#x2F;apex&#x2F;com.android.os.statsd&#x2F;javalib&#x2F;service-statsd.jar:&#x2F;apex&#x2F;com.android.profiling&#x2F;javalib&#x2F;service-profiling.jar:&#x2F;apex&#x2F;com.android.scheduling&#x2F;javalib&#x2F;service-scheduling.jar:&#x2F;apex&#x2F;com.android.tethering&#x2F;javalib&#x2F;service-connectivity.jar:&#x2F;apex&#x2F;com.android.uprobestats&#x2F;javalib&#x2F;service-uprobestats-bridge.jar:&#x2F;apex&#x2F;com.android.uwb&#x2F;javalib&#x2F;service-uwb.jar:&#x2F;apex&#x2F;com.android.uwb&#x2F;javalib&#x2F;service-ranging.jar:&#x2F;apex&#x2F;com.android.wifi&#x2F;javalib&#x2F;service-wifi.jar</td>
+</tr>
+<tr>
+<td>SYSTEMSERVERCLASSPATH</td>
+<td>&#x2F;system&#x2F;framework&#x2F;com.android.location.provider.jar:&#x2F;system&#x2F;framework&#x2F;services.jar:&#x2F;apex&#x2F;com.android.adservices&#x2F;javalib&#x2F;service-adservices.jar:&#x2F;apex&#x2F;com.android.adservices&#x2F;javalib&#x2F;service-sdksandbox.jar:&#x2F;apex&#x2F;com.android.appsearch&#x2F;javalib&#x2F;service-appsearch.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;service-art.jar:&#x2F;apex&#x2F;com.android.compos&#x2F;javalib&#x2F;service-compos.jar:&#x2F;apex&#x2F;com.android.configinfrastructure&#x2F;javalib&#x2F;service-configinfrastructure.jar:&#x2F;apex&#x2F;com.android.crashrecovery&#x2F;javalib&#x2F;service-crashrecovery.jar:&#x2F;apex&#x2F;com.android.healthfitness&#x2F;javalib&#x2F;service-healthfitness.jar:&#x2F;apex&#x2F;com.android.media&#x2F;javalib&#x2F;service-media-s.jar:&#x2F;apex&#x2F;com.android.npumanager&#x2F;javalib&#x2F;service-npumanager.jar:&#x2F;apex&#x2F;com.android.ondevicepersonalization&#x2F;javalib&#x2F;service-ondevicepersonalization.jar:&#x2F;apex&#x2F;com.android.permission&#x2F;javalib&#x2F;service-permission.jar:&#x2F;apex&#x2F;com.android.profiling&#x2F;javalib&#x2F;service-anomaly-detector.jar:&#x2F;apex&#x2F;com.android.rkpd&#x2F;javalib&#x2F;service-rkp.jar:&#x2F;apex&#x2F;com.android.telephonycore&#x2F;javalib&#x2F;service-telecom.jar:&#x2F;apex&#x2F;com.android.virt&#x2F;javalib&#x2F;service-virtualization.jar</td>
+</tr>
+<tr>
+<td>TMPDIR</td>
+<td>&#x2F;data&#x2F;user&#x2F;0&#x2F;{packagename}&#x2F;cache</td>
+</tr>
+</tbody></table>
+<h1 id="Java-value"><a href="#Java-value" class="headerlink" title="Java value"></a>Java value</h1><table>
+<thead>
+<tr>
+<th>key</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>android.icu.cldr.version</td>
+<td>48.0</td>
+</tr>
+<tr>
+<td>android.icu.library.version</td>
+<td>78.3</td>
+</tr>
+<tr>
+<td>android.icu.unicode.version</td>
+<td>17.0</td>
+</tr>
+<tr>
+<td>android.openssl.version</td>
+<td>OpenSSL 1.1.1 (compatible; BoringSSL)</td>
+</tr>
+<tr>
+<td>android.zlib.version</td>
+<td>1.3.2.1-motley</td>
+</tr>
+<tr>
+<td>file.encoding</td>
+<td>UTF-8</td>
+</tr>
+<tr>
+<td>file.separator</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td>http.agent</td>
+<td>Dalvik&#x2F;2.1.0 (Linux; U; Android 17; Pixel 6 Build&#x2F;CP2A.260705.006)</td>
+</tr>
+<tr>
+<td>java.boot.class.path</td>
+<td>&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;core-oj.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;core-libart.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;okhttp.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;bouncycastle.jar:&#x2F;apex&#x2F;com.android.art&#x2F;javalib&#x2F;apache-xml.jar:&#x2F;system&#x2F;framework&#x2F;framework.jar:&#x2F;system&#x2F;framework&#x2F;framework-graphics.jar:&#x2F;system&#x2F;framework&#x2F;framework-location.jar:&#x2F;system&#x2F;framework&#x2F;ext.jar:&#x2F;system&#x2F;framework&#x2F;telephony-common.jar:&#x2F;system&#x2F;framework&#x2F;voip-common.jar:&#x2F;system&#x2F;framework&#x2F;ims-common.jar:&#x2F;system&#x2F;framework&#x2F;framework-ondeviceintelligence-platform.jar:&#x2F;apex&#x2F;com.android.i18n&#x2F;javalib&#x2F;core-icu4j.jar:&#x2F;apex&#x2F;com.android.adservices&#x2F;javalib&#x2F;framework-adservices.jar:&#x2F;apex&#x2F;com.android.adservices&#x2F;javalib&#x2F;framework-sdksandbox.jar:&#x2F;apex&#x2F;com.android.appsearch&#x2F;javalib&#x2F;framework-appsearch.jar:&#x2F;apex&#x2F;com.android.bt&#x2F;javalib&#x2F;framework-bluetooth.jar:&#x2F;apex&#x2F;com.android.configinfrastructure&#x2F;javalib&#x2F;framework-configinfrastructure.jar:&#x2F;apex&#x2F;com.android.conscrypt&#x2F;javalib&#x2F;conscrypt.jar:&#x2F;apex&#x2F;com.android.conscrypt&#x2F;javalib&#x2F;framework-conscrypt-nsc.jar:&#x2F;apex&#x2F;com.android.crashrecovery&#x2F;javalib&#x2F;framework-crashrecovery.jar:&#x2F;apex&#x2F;com.android.devicelock&#x2F;javalib&#x2F;framework-devicelock.jar:&#x2F;apex&#x2F;com.android.healthfitness&#x2F;javalib&#x2F;framework-healthfitness.jar:&#x2F;apex&#x2F;com.android.ipsec&#x2F;javalib&#x2F;android.net.ipsec.ike.jar:&#x2F;apex&#x2F;com.android.media&#x2F;javalib&#x2F;updatable-media.jar:&#x2F;apex&#x2F;com.android.mediaprovider&#x2F;javalib&#x2F;framework-mediaprovider.jar:&#x2F;apex&#x2F;com.android.mediaprovider&#x2F;javalib&#x2F;framework-pdf.jar:&#x2F;apex&#x2F;com.android.mediaprovider&#x2F;javalib&#x2F;framework-pdf-v.jar:&#x2F;apex&#x2F;com.android.mediaprovider&#x2F;javalib&#x2F;framework-photopicker.jar:&#x2F;apex&#x2F;com.android.nfcservices&#x2F;javalib&#x2F;framework-nfc.jar:&#x2F;apex&#x2F;com.android.npumanager&#x2F;javalib&#x2F;framework-npumanager.jar:&#x2F;apex&#x2F;com.android.ondevicepersonalization&#x2F;javalib&#x2F;framework-ondevicepersonalization.jar:&#x2F;apex&#x2F;com.android.os.statsd&#x2F;javalib&#x2F;framework-statsd.jar:&#x2F;apex&#x2F;com.android.permission&#x2F;javalib&#x2F;framework-permission.jar:&#x2F;apex&#x2F;com.android.permission&#x2F;javalib&#x2F;framework-permission-s.jar:&#x2F;apex&#x2F;com.android.profiling&#x2F;javalib&#x2F;framework-anomaly-detector.jar:&#x2F;apex&#x2F;com.android.profiling&#x2F;javalib&#x2F;framework-profiling.jar:&#x2F;apex&#x2F;com.android.scheduling&#x2F;javalib&#x2F;framework-scheduling.jar:&#x2F;apex&#x2F;com.android.sdkext&#x2F;javalib&#x2F;framework-sdkextensions.jar:&#x2F;apex&#x2F;com.android.telephonycore&#x2F;javalib&#x2F;framework-telecom.jar:&#x2F;apex&#x2F;com.android.telephonycore&#x2F;javalib&#x2F;framework-telephony.jar:&#x2F;apex&#x2F;com.android.tethering&#x2F;javalib&#x2F;framework-connectivity.jar:&#x2F;apex&#x2F;com.android.tethering&#x2F;javalib&#x2F;framework-connectivity-b.jar:&#x2F;apex&#x2F;com.android.tethering&#x2F;javalib&#x2F;framework-connectivity-t.jar:&#x2F;apex&#x2F;com.android.tethering&#x2F;javalib&#x2F;framework-tethering.jar:&#x2F;apex&#x2F;com.android.uprobestats&#x2F;javalib&#x2F;framework-uprobestats.jar:&#x2F;apex&#x2F;com.android.uwb&#x2F;javalib&#x2F;framework-ranging.jar:&#x2F;apex&#x2F;com.android.uwb&#x2F;javalib&#x2F;framework-uwb.jar:&#x2F;apex&#x2F;com.android.virt&#x2F;javalib&#x2F;framework-virtualization.jar:&#x2F;apex&#x2F;com.android.webapp&#x2F;javalib&#x2F;framework-webapp.jar:&#x2F;apex&#x2F;com.android.wifi&#x2F;javalib&#x2F;framework-wifi.jar</td>
+</tr>
+<tr>
+<td>java.class.path</td>
+<td>.</td>
+</tr>
+<tr>
+<td>java.class.version</td>
+<td>50.0</td>
+</tr>
+<tr>
+<td>java.compiler</td>
+<td>“”(空字符串)</td>
+</tr>
+<tr>
+<td>java.ext.dirs</td>
+<td>“”(空字符串)</td>
+</tr>
+<tr>
+<td>java.home</td>
+<td>&#x2F;apex&#x2F;com.android.art</td>
+</tr>
+<tr>
+<td>java.io.tmpdir</td>
+<td>&#x2F;data&#x2F;user&#x2F;0&#x2F;{packagename}&#x2F;cache</td>
+</tr>
+<tr>
+<td>java.library.path</td>
+<td>&#x2F;system&#x2F;lib64:&#x2F;system_ext&#x2F;lib64</td>
+</tr>
+<tr>
+<td>java.net.preferIPv6Addresses</td>
+<td>false</td>
+</tr>
+<tr>
+<td>java.runtime.name</td>
+<td>Android Runtime</td>
+</tr>
+<tr>
+<td>java.runtime.version</td>
+<td>0.9</td>
+</tr>
+<tr>
+<td>java.specification.name</td>
+<td>Dalvik Core Library</td>
+</tr>
+<tr>
+<td>java.specification.vendor</td>
+<td>The Android Project</td>
+</tr>
+<tr>
+<td>java.specification.version</td>
+<td>0.9</td>
+</tr>
+<tr>
+<td>java.vendor</td>
+<td>The Android Project</td>
+</tr>
+<tr>
+<td>java.vendor.url</td>
+<td><a target="_blank" rel="noopener" href="http://www.android.com/">http://www.android.com/</a></td>
+</tr>
+<tr>
+<td>java.vm.name</td>
+<td>Dalvik</td>
+</tr>
+<tr>
+<td>java.vm.specification.name</td>
+<td>Dalvik Virtual Machine Specification</td>
+</tr>
+<tr>
+<td>java.vm.specification.vendor</td>
+<td>The Android Project</td>
+</tr>
+<tr>
+<td>java.vm.specification.version</td>
+<td>0.9</td>
+</tr>
+<tr>
+<td>java.vm.vendor</td>
+<td>The Android Project</td>
+</tr>
+<tr>
+<td>java.vm.vendor.url</td>
+<td><a target="_blank" rel="noopener" href="http://www.android.com/">http://www.android.com/</a></td>
+</tr>
+<tr>
+<td>java.vm.version</td>
+<td>2.1.0</td>
+</tr>
+<tr>
+<td>line.separator</td>
+<td>“\n”</td>
+</tr>
+<tr>
+<td>os.arch</td>
+<td>aarch64</td>
+</tr>
+<tr>
+<td>os.name</td>
+<td>Linux</td>
+</tr>
+<tr>
+<td>os.version</td>
+<td>6.1.157-android14-11-gbd23337e42e7-ab14791245</td>
+</tr>
+<tr>
+<td>path.separator</td>
+<td>:</td>
+</tr>
+<tr>
+<td>user.dir</td>
+<td>&#x2F;</td>
+</tr>
+<tr>
+<td>user.language</td>
+<td>zh</td>
+</tr>
+<tr>
+<td>user.locale</td>
+<td>zh-Hans-CN</td>
+</tr>
+<tr>
+<td>user.name</td>
+<td>root</td>
+</tr>
+<tr>
+<td>user.region</td>
+<td>CN</td>
+</tr>
+<tr>
+<td>user.variant</td>
+<td>“”</td>
+</tr>
+</tbody></table>
+<h1 id="dev"><a href="#dev" class="headerlink" title="dev"></a>dev</h1><table>
+<thead>
+<tr>
+<th>key</th>
+<th>val</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cpu_variant:arm</td>
+<td>cortex-a53</td>
+</tr>
+<tr>
+<td>cpu_variant:arm64</td>
+<td>cortex-a55</td>
+</tr>
+</tbody></table>
+<p>dev下能读的不多，基本是symlink，但是无权访问</p>
+<h1 id="proc"><a href="#proc" class="headerlink" title="proc"></a>proc</h1><p>主要是一些设备信息</p>
+<h2 id="cpuinfo"><a href="#cpuinfo" class="headerlink" title="cpuinfo"></a>cpuinfo</h2><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">processor</span>	: <span class="number">0</span></span><br><span class="line"><span class="attribute">BogoMIPS</span>	: <span class="number">49</span>.<span class="number">15</span></span><br><span class="line"><span class="attribute">Features</span>	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp</span><br><span class="line"><span class="attribute">CPU</span> implementer	: <span class="number">0</span>x41</span><br><span class="line"><span class="attribute">CPU</span> architecture: <span class="number">8</span></span><br><span class="line"><span class="attribute">CPU</span> variant	: <span class="number">0</span>x2</span><br><span class="line"><span class="attribute">CPU</span> part	: <span class="number">0</span>xd05</span><br><span class="line"><span class="attribute">CPU</span> revision	: <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">processor</span>	: <span class="number">1</span></span><br><span class="line"><span class="attribute">BogoMIPS</span>	: <span class="number">49</span>.<span class="number">15</span></span><br><span class="line"><span class="attribute">Features</span>	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp</span><br><span class="line"><span class="attribute">CPU</span> implementer	: <span class="number">0</span>x41</span><br><span class="line"><span class="attribute">CPU</span> architecture: <span class="number">8</span></span><br><span class="line"><span class="attribute">CPU</span> variant	: <span class="number">0</span>x2</span><br><span class="line"><span class="attribute">CPU</span> part	: <span class="number">0</span>xd05</span><br><span class="line"><span class="attribute">CPU</span> revision	: <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">processor</span>	: <span class="number">2</span></span><br><span class="line"><span class="attribute">BogoMIPS</span>	: <span class="number">49</span>.<span class="number">15</span></span><br><span class="line"><span class="attribute">Features</span>	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp</span><br><span class="line"><span class="attribute">CPU</span> implementer	: <span class="number">0</span>x41</span><br><span class="line"><span class="attribute">CPU</span> architecture: <span class="number">8</span></span><br><span class="line"><span class="attribute">CPU</span> variant	: <span class="number">0</span>x2</span><br><span class="line"><span class="attribute">CPU</span> part	: <span class="number">0</span>xd05</span><br><span class="line"><span class="attribute">CPU</span> revision	: <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">processor</span>	: <span class="number">3</span></span><br><span class="line"><span class="attribute">BogoMIPS</span>	: <span class="number">49</span>.<span class="number">15</span></span><br><span class="line"><span class="attribute">Features</span>	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp</span><br><span class="line"><span class="attribute">CPU</span> implementer	: <span class="number">0</span>x41</span><br><span class="line"><span class="attribute">CPU</span> architecture: <span class="number">8</span></span><br><span class="line"><span class="attribute">CPU</span> variant	: <span class="number">0</span>x2</span><br><span class="line"><span class="attribute">CPU</span> part	: <span class="number">0</span>xd05</span><br><span class="line"><span class="attribute">CPU</span> revision	: <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">processor</span>	: <span class="number">4</span></span><br><span class="line"><span class="attribute">BogoMIPS</span>	: <span class="number">49</span>.<span class="number">15</span></span><br><span class="line"><span class="attribute">Features</span>	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp</span><br><span class="line"><span class="attribute">CPU</span> implementer	: <span class="number">0</span>x41</span><br><span class="line"><span class="attribute">CPU</span> architecture: <span class="number">8</span></span><br><span class="line"><span class="attribute">CPU</span> variant	: <span class="number">0</span>x4</span><br><span class="line"><span class="attribute">CPU</span> part	: <span class="number">0</span>xd0b</span><br><span class="line"><span class="attribute">CPU</span> revision	: <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">processor</span>	: <span class="number">5</span></span><br><span class="line"><span class="attribute">BogoMIPS</span>	: <span class="number">49</span>.<span class="number">15</span></span><br><span class="line"><span class="attribute">Features</span>	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp</span><br><span class="line"><span class="attribute">CPU</span> implementer	: <span class="number">0</span>x41</span><br><span class="line"><span class="attribute">CPU</span> architecture: <span class="number">8</span></span><br><span class="line"><span class="attribute">CPU</span> variant	: <span class="number">0</span>x4</span><br><span class="line"><span class="attribute">CPU</span> part	: <span class="number">0</span>xd0b</span><br><span class="line"><span class="attribute">CPU</span> revision	: <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">processor</span>	: <span class="number">6</span></span><br><span class="line"><span class="attribute">BogoMIPS</span>	: <span class="number">49</span>.<span class="number">15</span></span><br><span class="line"><span class="attribute">Features</span>	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp</span><br><span class="line"><span class="attribute">CPU</span> implementer	: <span class="number">0</span>x41</span><br><span class="line"><span class="attribute">CPU</span> architecture: <span class="number">8</span></span><br><span class="line"><span class="attribute">CPU</span> variant	: <span class="number">0</span>x1</span><br><span class="line"><span class="attribute">CPU</span> part	: <span class="number">0</span>xd44</span><br><span class="line"><span class="attribute">CPU</span> revision	: <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="attribute">processor</span>	: <span class="number">7</span></span><br><span class="line"><span class="attribute">BogoMIPS</span>	: <span class="number">49</span>.<span class="number">15</span></span><br><span class="line"><span class="attribute">Features</span>	: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp</span><br><span class="line"><span class="attribute">CPU</span> implementer	: <span class="number">0</span>x41</span><br><span class="line"><span class="attribute">CPU</span> architecture: <span class="number">8</span></span><br><span class="line"><span class="attribute">CPU</span> variant	: <span class="number">0</span>x1</span><br><span class="line"><span class="attribute">CPU</span> part	: <span class="number">0</span>xd44</span><br><span class="line"><span class="attribute">CPU</span> revision	: <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h2 id="meminfo"><a href="#meminfo" class="headerlink" title="meminfo"></a>meminfo</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">MemTotal:</span>        <span class="number">7787844</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">MemFree:</span>          <span class="number">327868</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">MemAvailable:</span>    <span class="number">4084624</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Buffers:</span>            <span class="number">9604 </span><span class="string">kB</span></span><br><span class="line"><span class="attr">Cached:</span>          <span class="number">4031608</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">SwapCached:</span>         <span class="number">5184 </span><span class="string">kB</span></span><br><span class="line"><span class="attr">Active:</span>          <span class="number">2686168</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Inactive:</span>        <span class="number">2513500</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Active(anon):</span>    <span class="number">1186888</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Inactive(anon):</span>   <span class="number">316024</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Active(file):</span>    <span class="number">1499280</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Inactive(file):</span>  <span class="number">2197476</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Unevictable:</span>      <span class="number">307248</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Mlocked:</span>          <span class="number">307248</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">SwapTotal:</span>       <span class="number">3145724</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">SwapFree:</span>        <span class="number">1289660</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Dirty:</span>               <span class="number">192</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Writeback:</span>             <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">AnonPages:</span>       <span class="number">1460268</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Mapped:</span>          <span class="number">1759524</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Shmem:</span>             <span class="number">50600</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">KReclaimable:</span>     <span class="number">294792</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Slab:</span>             <span class="number">671508</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">SReclaimable:</span>     <span class="number">209352</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">SUnreclaim:</span>       <span class="number">462156</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">KernelStack:</span>      <span class="number">115808</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">ShadowCallStack:</span>   <span class="number">29004</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">PageTables:</span>       <span class="number">234192</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">SecPageTables:</span>         <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">NFS_Unstable:</span>          <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Bounce:</span>                <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">WritebackTmp:</span>          <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">CommitLimit:</span>     <span class="number">7039644</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Committed_AS:</span>   <span class="number">509442956</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">VmallocTotal:</span>   <span class="number">259653632</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">VmallocUsed:</span>      <span class="number">247348</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">VmallocChunk:</span>          <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Percpu:</span>            <span class="number">22336</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">AnonHugePages:</span>         <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">ShmemHugePages:</span>        <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">ShmemPmdMapped:</span>        <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">FileHugePages:</span>         <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">FilePmdMapped:</span>         <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">CmaTotal:</span>         <span class="number">667648</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">CmaFree:</span>               <span class="number">0</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Gpu:</span>              <span class="number">137356</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Zram:</span>             <span class="number">299908</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">ION_heap_pool:</span>     <span class="number">85440</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">ION_heap:</span>         <span class="number">159468</span> <span class="string">kB</span></span><br><span class="line"><span class="attr">Misc:</span>              <span class="number">95504</span> <span class="string">kB</span></span><br></pre></td></tr></table></figure>
+<h1 id="data-app-product-app"><a href="#data-app-product-app" class="headerlink" title="data&#x2F;app &amp; product&#x2F;app"></a>data&#x2F;app &amp; product&#x2F;app</h1><p>预装app列表</p>
+<h1 id="product"><a href="#product" class="headerlink" title="product"></a>product</h1><h2 id="etc"><a href="#etc" class="headerlink" title="etc"></a>etc</h2><h3 id="build-flags-json"><a href="#build-flags-json" class="headerlink" title="build_flags.json"></a>build_flags.json</h3><p>系统构建配置</p>
+<h3 id="felica"><a href="#felica" class="headerlink" title="felica"></a>felica</h3><p>NFC配置</p>
+<h3 id="fonts"><a href="#fonts" class="headerlink" title="fonts"></a>fonts</h3><p>支持字体列表</p>
+<h3 id="tts"><a href="#tts" class="headerlink" title="tts"></a>tts</h3><p>声音合成支持列表</p>
+<h1 id="vendor"><a href="#vendor" class="headerlink" title="vendor"></a>vendor</h1><h2 id="odm-dlkm-etc-build-prop"><a href="#odm-dlkm-etc-build-prop" class="headerlink" title="odm_dlkm&#x2F;etc&#x2F;build.prop"></a>odm_dlkm&#x2F;etc&#x2F;build.prop</h2><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">####################################</span><br><span class="line"># <span class="keyword">from</span> generate-common-build-props</span><br><span class="line"># These properties identify this partition image.</span><br><span class="line">####################################</span><br><span class="line">ro.product.odm_dlkm.brand=google</span><br><span class="line">ro.product.odm_dlkm.device=oriole</span><br><span class="line">ro.product.odm_dlkm.manufacturer=Google</span><br><span class="line">ro.product.odm_dlkm.model=Pixel <span class="number">6</span></span><br><span class="line">ro.product.odm_dlkm.name=oriole</span><br><span class="line">ro.odm_dlkm.build.date=Sun Jun <span class="number">14</span> <span class="number">21</span>:<span class="number">55</span>:<span class="number">03</span> PDT <span class="number">2026</span></span><br><span class="line">ro.odm_dlkm.build.date.utc=<span class="number">1781499303</span></span><br><span class="line">ro.odm_dlkm.build.fingerprint=google/oriole/oriole:<span class="number">17</span>/CP2A<span class="number">.260705</span><span class="number">.006</span>/<span class="number">15641320</span>:user/release-keys</span><br><span class="line">ro.odm_dlkm.build.id=CP2A<span class="number">.260705</span><span class="number">.006</span></span><br><span class="line">ro.odm_dlkm.build.uuid=uhNgujg2fmsyRn6Ty8Mb9Iz0aJsgWsT4cDQxLMFqctQ</span><br><span class="line">ro.odm_dlkm.build.tags=release-keys</span><br><span class="line">ro.odm_dlkm.build.type=user</span><br><span class="line">ro.odm_dlkm.build.version.incremental=<span class="number">15641320</span></span><br><span class="line">ro.odm_dlkm.build.version.release=<span class="number">17</span></span><br><span class="line">ro.odm_dlkm.build.version.release_or_codename=<span class="number">17</span></span><br><span class="line">ro.odm_dlkm.build.version.sdk=<span class="number">37</span></span><br><span class="line">ro.odm_dlkm.build.version.sdk_full=<span class="number">37.0</span></span><br><span class="line"># end <span class="keyword">of</span> file</span><br></pre></td></tr></table></figure>
+<p>系统构建参数</p>
+<h1 id="vendor-dlkm"><a href="#vendor-dlkm" class="headerlink" title="vendor_dlkm"></a>vendor_dlkm</h1><h2 id="etc-build-prop"><a href="#etc-build-prop" class="headerlink" title="etc&#x2F;build.prop"></a>etc&#x2F;build.prop</h2><p>同上</p>
+<h2 id="init-insmod-oriole-cfg"><a href="#init-insmod-oriole-cfg" class="headerlink" title="init.insmod.oriole.cfg"></a>init.insmod.oriole.cfg</h2><p>机型特定的模块配置</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">##########################################################</span><br><span class="line">#           init.insmod.oriole.cfg                       #</span><br><span class="line"># This file contains oriole specific kernel modules to   #</span><br><span class="line"># load at init time by init.insmod.sh script             #</span><br><span class="line">##########################################################</span><br><span class="line"></span><br><span class="line"># Load device specific kernel modules</span><br><span class="line"># Modules here will be loaded *after* all common modules</span><br><span class="line">modprobe|bcmdhd4389.ko</span><br><span class="line">modprobe|ftm5.ko</span><br><span class="line">modprobe|sec_touch.ko</span><br><span class="line">modprobe|st33spi.ko</span><br><span class="line"></span><br><span class="line"># All device specific modules loaded</span><br><span class="line">setprop|vendor.device.modules.ready</span><br><span class="line">setprop|vendor.all.modules.ready</span><br><span class="line">setprop|vendor.all.devices.ready</span><br></pre></td></tr></table></figure>
+</div><div class="article-licensing box"><div class="licensing-title"><p>设备指纹小计</p><p><a href="https://sgsgsama.github.io/ctf/Android/设备指纹小记/">https://sgsgsama.github.io/ctf/Android/设备指纹小记/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>SGSG</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2026-11-03</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2026-11-05</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/Android/">Android</a></div><div class="sharethis-inline-share-buttons"></div><script src="https://platform-api.sharethis.com/js/sharethis.js#property=67bd96aba47a1e001adc61bf&amp;product=inline-share-buttons&amp;source=platform" defer></script></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/ai/%E7%82%BC%E4%B8%B9%E9%9A%8F%E7%AC%94/"><span class="level-item">炼丹随笔</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar is-rounded" src="/img/avatar.jpg" alt="SGSG"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">SGSG</p><p class="is-size-6 is-block">逆向魔法使</p><p class="is-size-6 is-flex justify-content-center"><i class="fas fa-map-marker-alt mr-1"></i><span>Utopia</span></p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">Posts</p><a href="/archives/"><p class="title">55</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Categories</p><a href="/categories/"><p class="title">15</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">Tags</p><a href="/tags/"><p class="title">21</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/SGSGsama" target="_blank" rel="me noopener">Follow</a></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">Tags</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Android/"><span class="tag">Android</span><span class="tag">13</span></a></div><div class="control"><a class="tags has-addons" href="/tags/BinaryNinja/"><span class="tag">BinaryNinja</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Makefile/"><span class="tag">Makefile</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Python/"><span class="tag">Python</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Reverse/"><span class="tag">Reverse</span><span class="tag">31</span></a></div><div class="control"><a class="tags has-addons" href="/tags/XCTF/"><span class="tag">XCTF</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ai/"><span class="tag">ai</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/codeforces/"><span class="tag">codeforces</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/ebpf/"><span class="tag">ebpf</span><span class="tag">5</span></a></div><div class="control"><a class="tags has-addons" href="/tags/frida/"><span class="tag">frida</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/go/"><span class="tag">go</span><span class="tag">4</span></a></div><div class="control"><a class="tags has-addons" href="/tags/js/"><span class="tag">js</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/python/"><span class="tag">python</span><span class="tag">2</span></a></div><div class="control"><a class="tags has-addons" href="/tags/qbdi/"><span class="tag">qbdi</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/selenium/"><span class="tag">selenium</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/train/"><span class="tag">train</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web-re/"><span class="tag">web-re</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/web%E6%8C%87%E7%BA%B9/"><span class="tag">web指纹</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E5%8A%A0%E5%AF%86-%E7%BC%96%E7%A0%81/"><span class="tag">加密&amp;编码</span><span class="tag">9</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E6%B3%A3%E7%B3%BB/"><span class="tag">泣系</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/%E7%BA%B8%E4%B8%8A%E9%AD%94%E6%B3%95%E4%BD%BF/"><span class="tag">纸上魔法使</span><span class="tag">1</span></a></div></div></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">Recents</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2026-11-03T05:49:43.000Z">2026-11-03</time></p><p class="title"><a href="/ctf/Android/%E8%AE%BE%E5%A4%87%E6%8C%87%E7%BA%B9%E5%B0%8F%E8%AE%B0/">设备指纹小计</a></p><p class="categories"><a href="/categories/Reverse/">Reverse</a> / <a href="/categories/Reverse/Android/">Android</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2026-10-17T07:01:06.000Z">2026-10-17</time></p><p class="title"><a href="/ai/%E7%82%BC%E4%B8%B9%E9%9A%8F%E7%AC%94/">炼丹随笔</a></p><p class="categories"><a href="/categories/ai/">ai</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2026-10-08T17:50:25.000Z">2026-10-09</time></p><p class="title"><a href="/ai/llm%E5%B0%8F%E7%99%BD%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">llm小白学习笔记</a></p><p class="categories"><a href="/categories/ai/">ai</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2026-08-25T08:55:56.000Z">2026-08-25</time></p><p class="title"><a href="/%E6%9D%82%E9%A1%B9/%E5%8F%8D%E4%BD%9C%E5%BC%8A/%E7%94%A8%E6%88%B7%E7%94%BB%E5%83%8F%E6%9D%82%E8%B0%88/">用户画像杂谈</a></p><p class="categories"><a href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a> / <a href="/categories/%E6%9D%82%E9%A1%B9/%E5%8F%8D%E4%BD%9C%E5%BC%8A/">反作弊</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2026-08-24T07:09:37.000Z">2026-08-24</time></p><p class="title"><a href="/ctf/Android/ghost-lock/">ghost-lock 学习</a></p><p class="categories"><a href="/categories/Android/">Android</a></p></div></article></div></div><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#getenv"><span class="level-left"><span class="level-item">1</span><span class="level-item">getenv</span></span></a></li><li><a class="level is-mobile" href="#Java-value"><span class="level-left"><span class="level-item">2</span><span class="level-item">Java value</span></span></a></li><li><a class="level is-mobile" href="#dev"><span class="level-left"><span class="level-item">3</span><span class="level-item">dev</span></span></a></li><li><a class="level is-mobile" href="#proc"><span class="level-left"><span class="level-item">4</span><span class="level-item">proc</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#cpuinfo"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">cpuinfo</span></span></a></li><li><a class="level is-mobile" href="#meminfo"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">meminfo</span></span></a></li></ul></li><li><a class="level is-mobile" href="#data-app-product-app"><span class="level-left"><span class="level-item">5</span><span class="level-item">data/app &amp; product/app</span></span></a></li><li><a class="level is-mobile" href="#product"><span class="level-left"><span class="level-item">6</span><span class="level-item">product</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#etc"><span class="level-left"><span class="level-item">6.1</span><span class="level-item">etc</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#build-flags-json"><span class="level-left"><span class="level-item">6.1.1</span><span class="level-item">build_flags.json</span></span></a></li><li><a class="level is-mobile" href="#felica"><span class="level-left"><span class="level-item">6.1.2</span><span class="level-item">felica</span></span></a></li><li><a class="level is-mobile" href="#fonts"><span class="level-left"><span class="level-item">6.1.3</span><span class="level-item">fonts</span></span></a></li><li><a class="level is-mobile" href="#tts"><span class="level-left"><span class="level-item">6.1.4</span><span class="level-item">tts</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#vendor"><span class="level-left"><span class="level-item">7</span><span class="level-item">vendor</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#odm-dlkm-etc-build-prop"><span class="level-left"><span class="level-item">7.1</span><span class="level-item">odm_dlkm/etc/build.prop</span></span></a></li></ul></li><li><a class="level is-mobile" href="#vendor-dlkm"><span class="level-left"><span class="level-item">8</span><span class="level-item">vendor_dlkm</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#etc-build-prop"><span class="level-left"><span class="level-item">8.1</span><span class="level-item">etc/build.prop</span></span></a></li><li><a class="level is-mobile" href="#init-insmod-oriole-cfg"><span class="level-left"><span class="level-item">8.2</span><span class="level-item">init.insmod.oriole.cfg</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="SGSG&#039;s Blog" height="28"></a><p class="is-size-7"><span>&copy; 2026 SGSG</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script id="MathJax-script">window.MathJax = {"tex":{"inlineMath":[["$","$"],["\\(","\\)"]]},"svg":{"fontCache":"local"}};</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script src="/js/pjax.js"></script><!--!--><!--!--><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
